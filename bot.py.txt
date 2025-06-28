@@ -1,0 +1,23 @@
+import telegram
+import time
+
+BOT_TOKEN = 'YOUR_BOT_TOKEN'
+CHAT_ID = 'YOUR_CHAT_ID'
+
+bot = telegram.Bot(token=BOT_TOKEN)
+
+products = [
+    {"title": "Bluetooth Earbuds", "mrp": 1999, "current_price": 149, "url": "https://example.com/earbuds"},
+    {"title": "Wired Mouse", "mrp": 499, "current_price": 89, "url": "https://example.com/mouse"},
+]
+
+def check_for_deals(products, threshold=0.2):
+    for product in products:
+        price_drop = product['current_price'] / product['mrp']
+        if price_drop <= threshold:
+            message = f"🔥 {product['title']}\nMRP: ₹{product['mrp']}\nDeal: ₹{product['current_price']}\n👉 {product['url']}"
+            bot.send_message(chat_id=CHAT_ID, text=message)
+
+while True:
+    check_for_deals(products)
+    time.sleep(600)
